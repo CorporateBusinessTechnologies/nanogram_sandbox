@@ -1,21 +1,21 @@
 ---
 import "../../styles/global.css";
 export const prerender = false;
-const { id } = Astro.params;
+const { path } = Astro.params;
 const searchParams = Astro.url.searchParams;
 const level = searchParams.get("level");
 
-// id can be either a gameId or a full test path like "test/userId/timestamp"
-const isTestPath = id?.startsWith("test/");
-const gamePath = isTestPath ? id : `games/${id}/game`;
+// path can be either a gameId or a full test path like "test/userId/timestamp"
+const isTestPath = path?.startsWith("test/");
+const gamePath = isTestPath ? path : `games/${path}/game`;
 
 // Only fetch game data from API for production games (not test games)
-let gameData = null;
-let userAvatarUrl = null;
+let gameData: any = null;
+let userAvatarUrl: string | null = null;
 
 if (!isTestPath) {
   try {
-    const response = await fetch(`https://api.nanogram.app/api/games/${id}`);
+    const response = await fetch(`https://api.nanogram.app/api/games/${path}`);
     if (response.ok) {
       const data = await response.json();
       gameData = data.game;
