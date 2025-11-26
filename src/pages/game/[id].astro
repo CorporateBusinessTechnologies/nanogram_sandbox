@@ -1,0 +1,354 @@
+---
+import "../../styles/global.css";
+export const prerender = false;
+const { id } = Astro.params;
+const searchParams = Astro.url.searchParams;
+const level = searchParams.get("level");
+
+// Fetch game data from API
+let gameData = null;
+try {
+  const response = await fetch(`https://api.nanogram.app/api/games/${id}`);
+  if (response.ok) {
+    const data = await response.json();
+    gameData = data.game;
+  }
+} catch (error) {
+  console.error("Error fetching game data:", error);
+}
+
+// Compute user avatar URL from userId
+const userAvatarUrl = gameData?.user_id
+  ? `https://cdn.nanogram.app/users/${gameData.user_id}/avatar.png`
+  : null;
+---
+
+<html lang="en" class="select-none">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="generator" content={Astro.generator} />
+    <title>Nanogram Sandbox</title>
+  </head>
+  <body
+    class="flex min-h-screen w-screen flex-col gap-4 overflow-x-hidden bg-black"
+  >
+    <a href="https://discord.gg/wFUTPyzm" class="mt-4 ml-4 flex">
+      <img
+        src="/logo.png"
+        alt="Nanogram Logo"
+        class="z-30 w-32 object-contain sm:w-40 xl:w-48"
+      />
+    </a>
+    <div
+      class="flex w-full flex-col items-center justify-between gap-6 px-4 py-12 sm:px-6 md:py-0 xl:flex-row xl:gap-4 xl:px-8 xl:py-0"
+    >
+      <div
+        class="order-1 hidden w-full flex-col space-y-4 text-white xl:order-1 xl:flex xl:w-md xl:space-y-6"
+      >
+        <h1 class="mb-2 text-2xl font-bold sm:text-3xl">
+          Game Submission Guidelines
+        </h1>
+        <p class="mb-4 text-sm text-gray-400 sm:text-base xl:mb-6">
+          To ensure the best experience for players, please follow these design
+          requirements:
+        </p>
+
+        <div class="space-y-4 xl:space-y-5">
+          <div class="border-l-4 pl-3 sm:pl-4" style="border-color: #4E0FAA;">
+            <h3 class="mb-1 text-base font-semibold sm:text-lg">
+              Safe UI Zones
+            </h3>
+            <p class="text-xs leading-relaxed text-gray-300 sm:text-sm">
+              Keep essential gameplay elements away from the top and bottom
+              edges — these areas may be covered by our app UI (logo, likes,
+              shares, profile info, etc.).
+            </p>
+          </div>
+
+          <div class="border-l-4 pl-3 sm:pl-4" style="border-color: #7B3FE4;">
+            <h3 class="mb-1 text-base font-semibold sm:text-lg">
+              High Contrast + Dark Backgrounds
+            </h3>
+            <p class="text-xs leading-relaxed text-gray-300 sm:text-sm">
+              Use a dark or low-contrast backdrop so overlay UI and text remain
+              legible and visually clean.
+            </p>
+          </div>
+
+          <div class="border-l-4 pl-3 sm:pl-4" style="border-color: #00D4FF;">
+            <h3 class="mb-1 text-base font-semibold sm:text-lg">
+              Instant Play — No Start Screens
+            </h3>
+            <p class="text-xs leading-relaxed text-gray-300 sm:text-sm">
+              Players should dive right into gameplay the moment the game
+              appears. No title screens, no tap-to-start — just immediate
+              action.
+            </p>
+          </div>
+
+          <div class="border-l-4 pl-3 sm:pl-4" style="border-color: #C4EE74;">
+            <h3 class="mb-1 text-base font-semibold sm:text-lg">
+              Quick + Intuitive Gameplay
+            </h3>
+            <p class="text-xs leading-relaxed text-gray-300 sm:text-sm">
+              The game must be instantly understandable. A player should know
+              what to do in under 3 seconds without instructions.
+            </p>
+          </div>
+
+          <div class="border-l-4 pl-3 sm:pl-4" style="border-color: #FFB800;">
+            <h3 class="mb-1 text-base font-semibold sm:text-lg">
+              Portrait-First Experience
+            </h3>
+            <p class="text-xs leading-relaxed text-gray-300 sm:text-sm">
+              The game must be designed for vertical, full-screen mobile play
+              with comfortable one-hand controls.
+            </p>
+          </div>
+
+          <div class="border-l-4 pl-3 sm:pl-4" style="border-color: #FF5EBC;">
+            <h3 class="mb-1 text-base font-semibold sm:text-lg">
+              Short & Replayable
+            </h3>
+            <p class="text-xs leading-relaxed text-gray-300 sm:text-sm">
+              Aim for 10–30 second play sessions with a clear score or outcome
+              to encourage quick replays.
+            </p>
+          </div>
+        </div>
+      </div>
+      <div
+        class="relative order-2 mt-2 h-[600px] w-[350px] sm:h-[650px] sm:w-[450px] md:h-[800px] md:w-[500px] xl:mt-0 xl:h-[850px] xl:w-[600px]"
+        id="mockup-container"
+      >
+        <img
+          id="mockup-image"
+          src="/Mockup-Phone.png"
+          alt="Phone Mockup"
+          class="pointer-events-none absolute inset-0 z-10 h-full w-full object-contain"
+        />
+        <div
+          id="iframe-container"
+          class="absolute inset-0 mb-[35px] flex items-center justify-center sm:mb-[45px] md:mb-[60px] xl:mb-[60px]"
+        >
+          <iframe
+            id="game-iframe"
+            src={`https://cdn.nanogram.app/games/${id}/game/index.html${level ? `?level=${level}` : ""}`}
+            class="h-[550px] w-[275px] rounded-t-[2rem] border-0 sm:h-[590px] sm:w-[300px] sm:rounded-t-[2.5rem] md:h-[720px] md:w-[350px] xl:h-[755px] xl:w-[400px] xl:rounded-t-[3rem]"
+            title="Nanogram Game"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          ></iframe>
+        </div>
+        {
+          gameData && (
+            <div class="absolute bottom-[67px] left-[50px] z-20 flex items-center gap-2 sm:bottom-[110px] sm:left-[100px] sm:gap-3 xl:bottom-24.5 xl:left-32">
+              {userAvatarUrl && (
+                <img
+                  src={userAvatarUrl}
+                  alt={`${gameData.username}'s avatar`}
+                  class="h-8 w-8 rounded-full border border-white object-cover sm:h-9 sm:w-9 xl:h-10 xl:w-10"
+                />
+              )}
+              <div class="flex flex-col">
+                <span class="text-xs font-semibold text-white sm:text-sm">
+                  {gameData.username}
+                </span>
+                <span class="text-xs font-[400] text-[#DADADA] sm:text-sm">
+                  {gameData.title}
+                </span>
+              </div>
+            </div>
+          )
+        }
+      </div>
+      <div class="order-3 flex w-full flex-col gap-6 xl:w-md">
+        <div class="relative mx-auto max-w-[350px] sm:max-w-md xl:mx-0">
+          <img
+            src="/thumbnail-mockup.png"
+            alt="Thumbnail Mockup"
+            class="h-80 w-80 rounded-2xl object-cover sm:h-96 sm:w-96"
+          />
+          <div
+            class="absolute bottom-0 h-24 w-full rounded-b-2xl bg-gradient-to-t from-[#1A1A1A]/80 to-[#17171700]"
+          >
+          </div>
+          <div class="absolute bottom-4 left-4 flex flex-col gap-1">
+            <p class="text-xs font-semibold text-white sm:text-sm">
+              {gameData?.username}
+            </p>
+            <p class="text-xs font-[400] text-[#DADADA] sm:text-sm">
+              {gameData?.title}
+            </p>
+          </div>
+        </div>
+      </div>
+      <div
+        class="order-3 flex w-full flex-col space-y-4 text-white xl:order-1 xl:hidden xl:w-md xl:space-y-6"
+      >
+        <h1 class="mb-2 text-2xl font-bold sm:text-3xl">
+          Game Submission Guidelines
+        </h1>
+        <p class="mb-4 text-sm text-gray-400 sm:text-base xl:mb-6">
+          To ensure the best experience for players, please follow these design
+          requirements:
+        </p>
+
+        <div class="space-y-4 xl:space-y-5">
+          <div class="border-l-4 pl-3 sm:pl-4" style="border-color: #4E0FAA;">
+            <h3 class="mb-1 text-base font-semibold sm:text-lg">
+              Safe UI Zones
+            </h3>
+            <p class="text-xs leading-relaxed text-gray-300 sm:text-sm">
+              Keep essential gameplay elements away from the top and bottom
+              edges — these areas may be covered by our app UI (logo, likes,
+              shares, profile info, etc.).
+            </p>
+          </div>
+
+          <div class="border-l-4 pl-3 sm:pl-4" style="border-color: #7B3FE4;">
+            <h3 class="mb-1 text-base font-semibold sm:text-lg">
+              High Contrast + Dark Backgrounds
+            </h3>
+            <p class="text-xs leading-relaxed text-gray-300 sm:text-sm">
+              Use a dark or low-contrast backdrop so overlay UI and text remain
+              legible and visually clean.
+            </p>
+          </div>
+
+          <div class="border-l-4 pl-3 sm:pl-4" style="border-color: #00D4FF;">
+            <h3 class="mb-1 text-base font-semibold sm:text-lg">
+              Instant Play — No Start Screens
+            </h3>
+            <p class="text-xs leading-relaxed text-gray-300 sm:text-sm">
+              Players should dive right into gameplay the moment the game
+              appears. No title screens, no tap-to-start — just immediate
+              action.
+            </p>
+          </div>
+
+          <div class="border-l-4 pl-3 sm:pl-4" style="border-color: #C4EE74;">
+            <h3 class="mb-1 text-base font-semibold sm:text-lg">
+              Quick + Intuitive Gameplay
+            </h3>
+            <p class="text-xs leading-relaxed text-gray-300 sm:text-sm">
+              The game must be instantly understandable. A player should know
+              what to do in under 3 seconds without instructions.
+            </p>
+          </div>
+
+          <div class="border-l-4 pl-3 sm:pl-4" style="border-color: #FFB800;">
+            <h3 class="mb-1 text-base font-semibold sm:text-lg">
+              Portrait-First Experience
+            </h3>
+            <p class="text-xs leading-relaxed text-gray-300 sm:text-sm">
+              The game must be designed for vertical, full-screen mobile play
+              with comfortable one-hand controls.
+            </p>
+          </div>
+
+          <div class="border-l-4 pl-3 sm:pl-4" style="border-color: #FF5EBC;">
+            <h3 class="mb-1 text-base font-semibold sm:text-lg">
+              Short & Replayable
+            </h3>
+            <p class="text-xs leading-relaxed text-gray-300 sm:text-sm">
+              Aim for 10–30 second play sessions with a clear score or outcome
+              to encourage quick replays.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      // Device configurations
+      const deviceConfigs = {
+        phone: {
+          mockupSrc: "/Mockup-Phone.png",
+          mockupAlt: "Phone Mockup",
+          iframeClass:
+            "h-[445px] w-[230px] sm:h-[570px] sm:w-[295px] xl:h-[755px] xl:w-[390px] rounded-t-[2rem] sm:rounded-t-[2.5rem] xl:rounded-t-[3rem] border-0",
+          containerClass:
+            "absolute inset-0 mb-[35px] sm:mb-[45px] xl:mb-[60px] flex items-center justify-center",
+          icon: '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z"></path>',
+          name: "Phone",
+        },
+        tablet: {
+          mockupSrc: "/Mockup-Tablet.png",
+          mockupAlt: "Tablet Mockup",
+          iframeClass:
+            "h-[410px] w-[315px] sm:h-[525px] sm:w-[405px] xl:h-[695px] xl:w-[535px] rounded-t-[0.3rem] sm:rounded-t-[0.4rem] xl:rounded-t-[0.5rem] border-0",
+          containerClass:
+            "absolute inset-0 mb-[12px] sm:mb-[16px] xl:mb-[20px] flex items-center justify-center",
+          icon: '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 18h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"></path>',
+          name: "Tablet",
+        },
+      };
+
+      let currentDevice = "phone";
+
+      // Get elements
+      const deviceSelector = document.getElementById("device-selector");
+      const dropdownMenu = document.getElementById("dropdown-menu");
+      const selectedIcon = document.getElementById("selected-icon");
+      const selectedDeviceText = document.getElementById("selected-device");
+      const mockupImage = document.getElementById("mockup-image");
+      const gameIframe = document.getElementById("game-iframe");
+      const iframeContainer = document.getElementById("iframe-container");
+      const deviceOptions = document.querySelectorAll(".device-option");
+
+      // Toggle dropdown
+      deviceSelector?.addEventListener("click", () => {
+        dropdownMenu?.classList.toggle("hidden");
+      });
+
+      // Close dropdown when clicking outside
+      document.addEventListener("click", (e) => {
+        if (
+          !deviceSelector?.contains(e.target) &&
+          !dropdownMenu?.contains(e.target)
+        ) {
+          dropdownMenu?.classList.add("hidden");
+        }
+      });
+
+      // Handle device selection
+      deviceOptions.forEach((option) => {
+        option.addEventListener("click", (e) => {
+          const device = option.getAttribute("data-device");
+          if (device && deviceConfigs[device]) {
+            currentDevice = device;
+            const config = deviceConfigs[device];
+
+            // Update mockup image
+            if (mockupImage) {
+              mockupImage.src = config.mockupSrc;
+              mockupImage.alt = config.mockupAlt;
+            }
+
+            // Update iframe classes
+            if (gameIframe) {
+              gameIframe.className = config.iframeClass;
+            }
+
+            // Update container classes
+            if (iframeContainer) {
+              iframeContainer.className = config.containerClass;
+            }
+
+            // Update selected device display
+            if (selectedIcon) {
+              selectedIcon.innerHTML = config.icon;
+            }
+            if (selectedDeviceText) {
+              selectedDeviceText.textContent = config.name;
+            }
+
+            // Close dropdown
+            dropdownMenu?.classList.add("hidden");
+          }
+        });
+      });
+    </script>
+  </body>
+</html>

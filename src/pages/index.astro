@@ -2,14 +2,131 @@
 import "../styles/global.css";
 ---
 
-<html lang="en">
+<html lang="en" class="select-none">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width" />
     <meta name="generator" content={Astro.generator} />
-    <title>Title</title>
+    <title>Nanogram Sandbox - Preview Your Games</title>
   </head>
-  <body>
-    <h1 class="text-4xl text-red-500">Astro</h1>
+  <body
+    class="flex min-h-screen w-screen flex-col gap-4 overflow-x-hidden bg-black"
+  >
+    <a href="https://discord.gg/wFUTPyzm" class="mt-4 ml-4 flex">
+      <img
+        src="/logo.png"
+        alt="Nanogram Logo"
+        class="z-30 w-32 object-contain sm:w-40 xl:w-48"
+      />
+    </a>
+
+    <div
+      class="flex w-full flex-col items-center justify-center gap-8 px-4 py-12 sm:px-6 md:py-16 xl:px-8"
+    >
+      <div class="max-w-4xl text-center">
+        <h1
+          class="mb-4 text-4xl font-bold text-white sm:text-5xl md:text-6xl"
+          style="background: linear-gradient(135deg, #7B3FE4 0%, #00D4FF 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent;"
+        >
+          Nanogram Sandbox
+        </h1>
+        <p class="mb-8 text-lg text-gray-300 sm:text-xl md:text-2xl">
+          Preview your games in a real mobile environment
+        </p>
+      </div>
+
+      <div
+        class="grid w-full max-w-5xl gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:gap-8"
+      >
+        <div
+          class="rounded-lg border-l-4 bg-zinc-900 p-6 transition-all transition-transform duration-300 hover:scale-[1.02]"
+          style="border-color: #7B3FE4;"
+        >
+          <h3 class="mb-3 text-xl font-semibold text-white sm:text-2xl">
+            Real Device Preview
+          </h3>
+          <p class="text-sm leading-relaxed text-gray-300 sm:text-base">
+            See exactly how your game looks and feels on actual phone and tablet
+            mockups before publishing.
+          </p>
+        </div>
+
+        <div
+          class="rounded-lg border-l-4 bg-zinc-900 p-6 transition-all transition-transform duration-300 hover:scale-[1.02]"
+          style="border-color: #00D4FF;"
+        >
+          <h3 class="mb-3 text-xl font-semibold text-white sm:text-2xl">
+            Test Game Submissions
+          </h3>
+          <p class="text-sm leading-relaxed text-gray-300 sm:text-base">
+            Validate your game meets all submission requirements with our
+            interactive preview tool.
+          </p>
+        </div>
+
+        <div
+          class="rounded-lg border-l-4 bg-zinc-900 p-6 transition-all transition-transform duration-300 hover:scale-[1.02]"
+          style="border-color: #C4EE74;"
+        >
+          <h3 class="mb-3 text-xl font-semibold text-white sm:text-2xl">
+            Quick Iterations
+          </h3>
+          <p class="text-sm leading-relaxed text-gray-300 sm:text-base">
+            Make rapid adjustments and instantly preview changes in a
+            production-like environment.
+          </p>
+        </div>
+
+        <div
+          class="rounded-lg border-l-4 bg-zinc-900 p-6 transition-all transition-transform duration-300 hover:scale-[1.02]"
+          style="border-color: #FFB800;"
+        >
+          <h3 class="mb-3 text-xl font-semibold text-white sm:text-2xl">
+            API Integration
+          </h3>
+          <p class="text-sm leading-relaxed text-gray-300 sm:text-base">
+            Automatically fetches game metadata and user information from the
+            Nanogram API for accurate previews.
+          </p>
+        </div>
+
+        <div
+          class="rounded-lg border-l-4 bg-zinc-900 p-6 transition-all transition-transform duration-300 hover:scale-[1.02]"
+          style="border-color: #FF5EBC;"
+        >
+          <h3 class="mb-3 text-xl font-semibold text-white sm:text-2xl">
+            Multiple Viewports
+          </h3>
+          <p class="text-sm leading-relaxed text-gray-300 sm:text-base">
+            Preview your game on different device sizes to ensure a perfect
+            mobile experience.
+          </p>
+        </div>
+
+        <div
+          class="rounded-lg border-l-4 bg-zinc-900 p-6 transition-all transition-transform duration-300 hover:scale-[1.02]"
+          style="border-color: #4E0FAA;"
+        >
+          <h3 class="mb-3 text-xl font-semibold text-white sm:text-2xl">
+            Design Guidelines
+          </h3>
+          <p class="text-sm leading-relaxed text-gray-300 sm:text-base">
+            Built-in submission guidelines help you create games that players
+            will love.
+          </p>
+        </div>
+      </div>
+
+      <div class="mt-12 max-w-3xl text-center">
+        <p class="text-sm text-gray-400 sm:text-base">
+          This sandbox is designed for game developers creating content for
+          Nanogram. Join our{" "}
+          <a
+            href="https://discord.gg/wFUTPyzm"
+            class="text-[#00D4FF] hover:underline">Discord community</a
+          > to learn more about game development and submission.
+        </p>
+      </div>
+    </div>
   </body>
 </html>
